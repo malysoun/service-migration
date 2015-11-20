@@ -11,15 +11,15 @@ def deserialize(data):
     Deserializes a list of HealthChecks.
     """
     healthchecks = []
-    if data is None:
+    if not data:
         return []
     for k, v in data.iteritems():
         hc = HealthCheck()
         hc._HealthCheck__data = v
         hc.name = k
-        hc.script = v["Script"]
-        hc.interval = v["Interval"]
-        hc.timeout = v["Timeout"]
+        hc.script = v.get("Script", hc.script)
+        hc.interval = v.get("Interval", hc.interval)
+        hc.timeout = v.get("Timeout", hc.timeout)
         healthchecks.append(hc)
     return healthchecks
 

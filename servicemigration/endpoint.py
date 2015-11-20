@@ -32,17 +32,17 @@ def deserialize(data):
     """
     Deserializes the list of endpoints.
     """
-    if data is None:
+    if not data:
         return []
     endpoints = []
     for ep in data:
         endpoint = Endpoint()
         endpoint._Endpoint__data = ep
-        endpoint.name = ep["Name"]
-        endpoint.purpose = ep["Purpose"]
-        endpoint.application = ep["Application"]
-        endpoint.portnumber = ep["PortNumber"]
-        endpoint.protocol = ep["Protocol"]
+        endpoint.name = ep.get("Name", endpoint.name)
+        endpoint.purpose = ep.get("Purpose", endpoint.purpose)
+        endpoint.application = ep.get("Application", endpoint.application)
+        endpoint.portnumber = ep.get("PortNumber", endpoint.portnumber)
+        endpoint.protocol = ep.get("Protocol", endpoint.protocol)
         endpoint.addressConfig = config.deserialize(ep.get("AddressConfig", {}))
         endpoints.append(endpoint)
     return endpoints

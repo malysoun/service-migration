@@ -9,15 +9,16 @@ def deserialize(data):
     """
     Deserializes a list of Commands.
     """
-    if data is None:
+    if not data:
         return []
     commands = []
     for k, v in data.iteritems():
         command = Command()
         command._Command__data = v
         command.name = k
-        command.command = v["Command"]
-        command.commitOnSuccess = v["CommitOnSuccess"]
+        command.command = v.get("Command", command.command)
+        command.commitOnSuccess = v.get("CommitOnSuccess",
+                                        command.commitOnSuccess)
         commands.append(command)
     return commands
 
@@ -42,5 +43,3 @@ class Command(object):
         self.name = name
         self.command = command
         self.commitOnSuccess = commitOnSuccess
-
-
